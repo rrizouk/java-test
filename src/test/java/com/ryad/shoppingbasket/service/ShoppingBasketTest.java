@@ -11,10 +11,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.ryad.shoppingbasket.domain.ProductType.APPLE;
-import static com.ryad.shoppingbasket.domain.ProductType.MILK;
-import static com.ryad.shoppingbasket.domain.Unit.BOTTLE;
-import static com.ryad.shoppingbasket.domain.Unit.SINGLE;
+import static com.ryad.shoppingbasket.domain.ProductType.*;
+import static com.ryad.shoppingbasket.domain.Unit.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -45,6 +43,28 @@ public class ShoppingBasketTest {
 
        assertNotNull(totalCost);
        assertEquals(BigDecimal.valueOf(1.9), totalCost);
+
+    }
+
+
+    @Test
+    public void should_get_total_cost_for_basket_with_one_discount() {
+
+        Product soup = createProduct(SOUP, TIN,BigDecimal.valueOf(0.65));
+        Product bread = createProduct(BREAD, LOAF,BigDecimal.valueOf(0.8));
+        List<Product> soups = createProducts(soup,3);
+        List<Product> breads = createProducts(bread,2);
+
+        List<Product> products = new ArrayList<>(soups);
+        products.addAll(breads);
+
+        underTest.addProducts(products);
+
+
+        BigDecimal totalCost =  underTest.getTotalCost();
+
+        assertNotNull(totalCost);
+        assertEquals(BigDecimal.valueOf(3.15), totalCost);
 
     }
 
