@@ -38,8 +38,10 @@ public class ShoppingBasketTest {
         List<Product> products = new ArrayList<>(apples);
         products.addAll(bottlesOfMilk);
 
+        underTest.addProducts(products);
 
-       BigDecimal totalCost =  underTest.getTotalCost(products);
+
+       BigDecimal totalCost =  underTest.getTotalCost();
 
        assertNotNull(totalCost);
        assertEquals(BigDecimal.valueOf(1.9), totalCost);
