@@ -51,5 +51,10 @@ All outputs must print to the command line.
      - Expected total cost = 1.84;
    - Price a basket containing: 3 apples, 2 tins of soup and a loaf of bread, bought in 5 days time,
      - Expected total cost = 1.97.
- 
+
+
+
+ ####
+ -- ShoppingBasketTest is the class that contains test cases documenting the requirements
+ -- ShoppingBasket contains the logic, things were kept simple for brevity, discounts offer would belong to a different class altogether in a production ready code.
  
