@@ -4,10 +4,10 @@ package com.ryad.shoppingbasket.service;
 import com.ryad.shoppingbasket.domain.Product;
 import com.ryad.shoppingbasket.domain.ProductType;
 import com.ryad.shoppingbasket.domain.Unit;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +20,6 @@ public class ShoppingBasketTest {
 
     private ShoppingBasket underTest;
 
-    @Before
-    public void setUp()  {
-        underTest = new ShoppingBasket();
-    }
 
     @Test
     public void should_get_total_cost_for_basket_without_discounts() {
@@ -35,20 +31,22 @@ public class ShoppingBasketTest {
 
         List<Product> products = new ArrayList<>(apples);
         products.addAll(bottlesOfMilk);
+        LocalDate today = LocalDate.now();
 
-        underTest.addProducts(products);
+        underTest = new ShoppingBasket(products,today);
 
+        BigDecimal expected = BigDecimal.valueOf(1.9);
 
-       BigDecimal totalCost =  underTest.getTotalCost();
+        BigDecimal totalCost =  underTest.getTotalShoppingBasketCost();
 
-       assertNotNull(totalCost);
-       assertEquals(BigDecimal.valueOf(1.9), totalCost);
+        assertNotNull(totalCost);
+        assertEquals(0, totalCost.compareTo(expected));
 
     }
 
 
     @Test
-    public void should_get_total_cost_for_basket_with_one_discount() {
+    public void should_get_total_cost_for_basket_with_bread_discount() {
 
         Product soup = createProduct(SOUP, TIN,BigDecimal.valueOf(0.65));
         Product bread = createProduct(BREAD, LOAF,BigDecimal.valueOf(0.8));
@@ -58,13 +56,69 @@ public class ShoppingBasketTest {
         List<Product> products = new ArrayList<>(soups);
         products.addAll(breads);
 
-        underTest.addProducts(products);
+        LocalDate today = LocalDate.now();
 
+        underTest = new ShoppingBasket(products,today);
 
-        BigDecimal totalCost =  underTest.getTotalCost();
+        BigDecimal expected = BigDecimal.valueOf(3.15);
+
+        BigDecimal totalCost =  underTest.getTotalShoppingBasketCost();
 
         assertNotNull(totalCost);
-        assertEquals(BigDecimal.valueOf(3.15), totalCost);
+        assertEquals(0, totalCost.compareTo(expected));
+
+    }
+
+    @Test
+    public void should_get_total_cost_for_basket_with_apple_discount() {
+
+        Product apple = createProduct(APPLE, SINGLE,BigDecimal.valueOf(0.1));
+        Product milk = createProduct(MILK, BOTTLE,BigDecimal.valueOf(1.3));
+        List<Product> apples = createProducts(apple,6);
+        List<Product> bottlesOfMilk = createProducts(milk,1);
+
+        List<Product> products = new ArrayList<>(apples);
+        products.addAll(bottlesOfMilk);
+
+        LocalDate inFiveDays = LocalDate.now().plusDays(5);
+
+        underTest = new ShoppingBasket(products,inFiveDays);
+
+        BigDecimal expected = BigDecimal.valueOf(1.84);
+
+        BigDecimal totalCost =  underTest.getTotalShoppingBasketCost();
+
+        assertNotNull(totalCost);
+        assertEquals(0, totalCost.compareTo(expected));
+
+    }
+
+    @Test
+    public void should_get_total_cost_for_basket_with_apple_and_bread_discount() {
+
+        Product apple = createProduct(APPLE, SINGLE,BigDecimal.valueOf(0.1));
+        Product soup = createProduct(SOUP, TIN,BigDecimal.valueOf(0.65));
+        Product bread = createProduct(BREAD, LOAF,BigDecimal.valueOf(0.8));
+
+        List<Product> apples = createProducts(apple,3);
+        List<Product> soups = createProducts(soup,2);
+        List<Product> loaves = createProducts(bread,1);
+
+        List<Product> products = new ArrayList<>(apples);
+        products.addAll(soups);
+        products.addAll(loaves);
+
+        LocalDate inFiveDays = LocalDate.now().plusDays(5);
+
+        underTest = new ShoppingBasket(products,inFiveDays);
+
+        BigDecimal expected = BigDecimal.valueOf(1.97);
+
+        BigDecimal totalCost =  underTest.getTotalShoppingBasketCost();
+
+        assertNotNull(totalCost);
+        assertEquals(expected, totalCost);
+        assertEquals(0, totalCost.compareTo(expected));
 
     }
 
