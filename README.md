@@ -53,8 +53,8 @@ All outputs must print to the command line.
      - Expected total cost = 1.97.
 
 
+### Implementation
+ - ShoppingBasketTest is the class that contains test cases documenting the requirements
+ - ShoppingBasket contains the logic, things were kept simple for brevity, discounts offer would belong to a different class altogether in a production ready code
 
- ####
- -- ShoppingBasketTest is the class that contains test cases documenting the requirements
- -- ShoppingBasket contains the logic, things were kept simple for brevity, discounts offer would belong to a different class altogether in a production ready code.
  
